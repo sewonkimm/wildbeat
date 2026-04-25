@@ -1,9 +1,513 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Wild Beat Music Academy — Global Styles
+   Pretendard (본문) + Display 폰트 (영문 헤드라인)
+   다크 테마 기반 | Tailwind CSS 3
+───────────────────────────────────────────────────────────────────────── */
+
+/* ─── 웹폰트 로드 ─────────────────────────────────────────────────────── */
+
+/* Pretendard: 한국어 본문 폰트 — CDN (PretendardProject GitHub) */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+
+/* Bebas Neue: 영문 디스플레이 헤드라인 — Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* ─── CSS 변수 ────────────────────────────────────────────────────────── */
+
+:root {
+  /* 컬러 토큰 */
+  --color-background: #0a0a0f;
+  --color-surface: #111118;
+  --color-surface-light: #1a1a24;
+  --color-surface-elevated: #21212e;
+  --color-foreground: #ededed;
+  --color-text-secondary: #b8bcc8;
+  --color-text-muted: #6b7280;
+  --color-border: #1e1e2a;
+  --color-border-light: #2a2a38;
+  --color-primary: #d4a843;
+  --color-primary-light: #e4c06a;
+  --color-primary-dark: #b8912e;
+  --color-accent: #7b5ea7;
+  --color-accent-light: #9b7ec8;
+
+  /* 폰트 패밀리 */
+  --font-body: 'Pretendard Variable', 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font-display: 'Bebas Neue', 'Impact', 'Arial Narrow', sans-serif;
+
+  /* 전환 easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* 레이아웃 */
+  --container-max: 80rem;
+  --container-x: 1.5rem;
+}
+
+/* ─── Tailwind 지시어 ─────────────────────────────────────────────────── */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  color: #ededed;
-  background: #0a0a0f;
-  font-family: 'Pretendard', sans-serif;
+/* ─── @layer base: 기본 리셋 & 다크 테마 ─────────────────────────────── */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    /* 스크롤 부드럽게 */
+    scroll-behavior: smooth;
+    /* iOS 폰트 크기 자동 확대 방지 */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* 탭 포커스 시 외곽선 오프셋 색상 */
+    --tw-ring-offset-color: var(--color-background);
+  }
+
+  body {
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.75;
+    font-weight: 400;
+    /* 폰트 렌더링 최적화 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* 레이아웃 이동 방지 */
+    overflow-x: hidden;
+  }
+
+  /* 헤딩 기본 스타일 */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-body);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-foreground);
+    letter-spacing: -0.01em;
+  }
+
+  /* 링크 기본 */
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s var(--ease-out-expo);
+  }
+
+  /* 이미지 기본 */
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* 버튼 기본 리셋 */
+  button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+  }
+
+  /* 입력 기본 */
+  input,
+  textarea,
+  select {
+    font-family: var(--font-body);
+    color: var(--color-foreground);
+  }
+
+  /* 리스트 리셋 */
+  ul,
+  ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ─── 포커스 스타일 기본값 ─────────────────────────────────────────── */
+
+  /* 마우스 사용 시 포커스 링 숨김 */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* 키보드 탐색 시 포커스 링 표시 */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* 버튼/링크 포커스 */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* 입력 필드 포커스 */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: none;
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.2);
+  }
+
+  /* ─── 텍스트 선택 색상 ─────────────────────────────────────────────── */
+
+  ::selection {
+    background-color: rgba(212, 168, 67, 0.3);
+    color: #ffffff;
+  }
+
+  ::-moz-selection {
+    background-color: rgba(212, 168, 67, 0.3);
+    color: #ffffff;
+  }
+
+  /* ─── 스크롤바 커스텀 (WebKit) ─────────────────────────────────────── */
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #2a2a38;
+    border-radius: 9999px;
+    transition: background 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-dark);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: var(--color-surface);
+  }
+
+  /* Firefox 스크롤바 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2a2a38 var(--color-surface);
+  }
+
+  /* ─── display 폰트 변수 노출 (Tailwind font-display 클래스용) ───── */
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+}
+
+/* ─── @layer components: 재사용 유틸리티 클래스 ─────────────────────── */
+
+@layer components {
+  /* ─── 레이아웃 ────────────────────────────────────────────────────── */
+
+  /* 풀폭 섹션 내부 컨테이너 */
+  .container-base {
+    @apply w-full max-w-container mx-auto px-6 md:px-8 lg:px-10;
+  }
+
+  /* 좁은 컨테이너 (폼, 아티클) */
+  .container-sm {
+    @apply w-full max-w-container-sm mx-auto px-6 md:px-8;
+  }
+
+  /* 섹션 패딩 */
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  .section-padding-sm {
+    @apply py-12 md:py-16 lg:py-20;
+  }
+
+  .section-padding-lg {
+    @apply py-20 md:py-32 lg:py-40;
+  }
+
+  /* ─── 타이포그래피 ────────────────────────────────────────────────── */
+
+  /* 섹션 레이블 (섹션 타이틀 위 작은 상위 텍스트) */
+  .section-label {
+    @apply text-label-lg text-primary tracking-[0.15em] uppercase font-semibold;
+  }
+
+  /* 섹션 타이틀 */
+  .section-title {
+    @apply text-heading-xl font-bold text-foreground;
+  }
+
+  /* 섹션 설명 */
+  .section-desc {
+    @apply text-body-lg text-text-secondary leading-relaxed;
+  }
+
+  /* 텍스트 그라디언트 (골드) */
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, #d4a843 0%, #e4c06a 100%);
+  }
+
+  /* 텍스트 그라디언트 (브랜드) */
+  .text-gradient-brand {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, #d4a843 0%, #9b7ec8 100%);
+  }
+
+  /* ─── 버튼 ────────────────────────────────────────────────────────── */
+
+  /* Primary 버튼 (골드) */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           px-7 py-3.5
+           text-label-lg font-semibold tracking-wide
+           bg-primary text-text-inverse
+           rounded-button
+           transition-all duration-250 ease-out
+           hover:bg-primary-light hover:shadow-gold
+           active:scale-[0.98]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Primary 버튼 — 크게 */
+  .btn-primary-lg {
+    @apply btn-primary px-9 py-4 text-base;
+  }
+
+  /* Secondary 버튼 (테두리) */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           px-7 py-3.5
+           text-label-lg font-semibold tracking-wide
+           border border-primary text-primary bg-transparent
+           rounded-button
+           transition-all duration-250 ease-out
+           hover:bg-primary hover:text-text-inverse hover:shadow-gold
+           active:scale-[0.98]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Ghost 버튼 */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           px-5 py-2.5
+           text-label-md font-medium
+           text-text-secondary bg-transparent
+           rounded-button
+           transition-all duration-250 ease-out
+           hover:text-foreground hover:bg-surface-light
+           active:scale-[0.98]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* 아이콘 버튼 */
+  .btn-icon {
+    @apply inline-flex items-center justify-center
+           w-10 h-10
+           text-text-secondary
+           rounded-button
+           transition-all duration-200 ease-out
+           hover:text-foreground hover:bg-surface-light
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary;
+  }
+
+  /* ─── 카드 ────────────────────────────────────────────────────────── */
+
+  /* 기본 카드 */
+  .card-base {
+    @apply bg-surface rounded-card border border-border
+           shadow-card
+           transition-all duration-350 ease-out;
+  }
+
+  /* 호버 카드 */
+  .card-hover {
+    @apply card-base
+           hover:border-border-light hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  /* 골드 강조 카드 (상단 라인) */
+  .card-gold {
+    @apply card-base relative overflow-hidden;
+  }
+
+  .card-gold::before {
+    content: '';
+    @apply absolute top-0 left-0 right-0 h-px;
+    background: linear-gradient(to right, #d4a843, #e4c06a);
+  }
+
+  /* ─── 입력 필드 ───────────────────────────────────────────────────── */
+
+  .input-base {
+    @apply w-full px-4 py-3
+           text-body-md text-foreground
+           bg-surface-light
+           border border-border rounded-button
+           placeholder:text-text-muted
+           transition-all duration-200 ease-out
+           focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary focus:ring-opacity-20
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .input-label {
+    @apply block text-label-md text-text-secondary mb-1.5 font-medium;
+  }
+
+  .input-error {
+    @apply text-caption text-error mt-1.5;
+  }
+
+  .input-helper {
+    @apply text-caption text-text-muted mt-1.5;
+  }
+
+  /* ─── 배지 ────────────────────────────────────────────────────────── */
+
+  .badge {
+    @apply inline-flex items-center gap-1
+           px-3 py-1
+           text-label-sm font-semibold tracking-wide uppercase
+           rounded-badge;
+  }
+
+  .badge-gold {
+    @apply badge bg-primary-muted text-primary border border-primary/30;
+  }
+
+  .badge-purple {
+    @apply badge bg-accent-muted text-accent-light border border-accent/30;
+  }
+
+  .badge-surface {
+    @apply badge bg-surface-elevated text-text-secondary border border-border;
+  }
+
+  /* ─── 구분선 ──────────────────────────────────────────────────────── */
+
+  .divider {
+    @apply h-px w-full bg-border;
+  }
+
+  .divider-gold {
+    @apply h-px w-16;
+    background: linear-gradient(to right, #d4a843, transparent);
+  }
+
+  /* ─── 오버레이 / 배경 ─────────────────────────────────────────────── */
+
+  /* 히어로 배경 오버레이 */
+  .hero-overlay {
+    @apply absolute inset-0;
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 10, 15, 0.3) 0%,
+      rgba(10, 10, 15, 0.7) 60%,
+      rgba(10, 10, 15, 1) 100%
+    );
+  }
+
+  /* 섹션 배경 틴트 */
+  .bg-gold-tint {
+    background: radial-gradient(ellipse at top center, rgba(212, 168, 67, 0.08) 0%, transparent 60%);
+  }
+
+  .bg-purple-tint {
+    background: radial-gradient(ellipse at bottom center, rgba(123, 94, 167, 0.1) 0%, transparent 60%);
+  }
+
+  /* ─── 스크롤 애니메이션 초기 상태 (Framer Motion과 함께 사용) ──────── */
+
+  /* JS 로드 전 콘텐츠 숨김 방지 — Framer Motion이 초기화 후 제어 */
+  [data-motion] {
+    will-change: transform, opacity;
+  }
+
+  /* ─── 접근성 ──────────────────────────────────────────────────────── */
+
+  /* 스크린리더 전용 텍스트 */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* 모션 감소 선호 사용자 대응 */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ─── @layer utilities: 추가 유틸리티 ────────────────────────────────── */
+
+@layer utilities {
+  /* 텍스트 밸런스 (헤딩 줄바꿈 균형) */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* 배경 blur 없이 투명도만 */
+  .bg-glass {
+    background: rgba(17, 17, 24, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* 골드 테두리 그라디언트 */
+  .border-gradient-gold {
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    position: relative;
+  }
+
+  /* 마퀴 애니메이션 컨테이너 */
+  .marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-track {
+    display: inline-flex;
+    animation: marquee 30s linear infinite;
+  }
+
+  /* 숫자 통계 스타일 */
+  .stat-number {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+  }
 }
