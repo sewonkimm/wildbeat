@@ -53,7 +53,7 @@
 - 애니메이션: Framer Motion (스크롤 기반 등장 애니메이션)
 - 폼: React Hook Form + Zod validation
 - 지도: 카카오맵 API 또는 Google Maps embed
-- 배포: Vercel
+- 배포: Cloudflare Pages
 - 폰트: Pretendard(본문) + 영문 디스플레이 폰트(헤드라인)
 
 ## 코드 컨벤션
