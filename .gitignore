@@ -4,3 +4,4 @@ node_modules/
 .env.local
 .claude/settings.local.json
 CLAUDE.local.md
+.omc/*
